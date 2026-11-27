@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HackCampus — College Hackathon Management System</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <span class="brand-badge">HC</span>
+        <div>
+          <h1>HackCampus</h1>
+          <p class="subtitle">College Hackathon Management System</p>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Primary Navigation">
+        <button class="nav-btn active" data-tab="overview">Overview</button>
+        <button class="nav-btn" data-tab="hackathons">Hackathons</button>
+        <button class="nav-btn" data-tab="teams">Teams</button>
+        <button class="nav-btn" data-tab="submissions">Submissions</button>
+        <button class="nav-btn" data-tab="judging">Judging & Leaderboard</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <!-- Overview Tab -->
+    <section id="tab-overview" class="tab-panel active">
+      <div class="hero-card">
+        <div>
+          <h2>Welcome to HackCampus</h2>
+          <p>Organize college hackathons, register student teams, collect project submissions, and manage live judging from one simple portal.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-goto="teams">Register Team</button>
+          <button class="btn btn-secondary" data-goto="submissions">Submit Project</button>
+        </div>
+      </div>
+
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">Hackathons</span>
+          <strong class="stat-value" id="stat-hackathons">0</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Registered Teams</span>
+          <strong class="stat-value" id="stat-teams">0</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Project Submissions</span>
+          <strong class="stat-value" id="stat-submissions">0</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Judge Evaluations</span>
+          <strong class="stat-value" id="stat-evaluations">0</strong>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h3>Active & Upcoming Hackathons</h3>
+      </div>
+      <div class="cards-grid" id="overview-hackathons"></div>
+    </section>
+
+    <!-- Hackathons Tab -->
+    <section id="tab-hackathons" class="tab-panel">
+      <div class="split-layout">
+        <div class="card form-card">
+          <h3>Create Hackathon Event</h3>
+          <form id="hackathon-form">
+            <label>
+              Event Title
+              <input type="text" name="title" placeholder="e.g., CodeFest 2026" required />
+            </label>
+            <label>
+              Theme
+              <input type="text" name="theme" placeholder="e.g., FinTech & EdTech" required />
+            </label>
+            <div class="form-row">
+              <label>
+                Event Date
+                <input type="date" name="event_date" required />
+              </label>
+              <label>
+                Max Team Size
+                <input type="number" name="max_team_size" min="1" max="10" value="4" required />
+              </label>
+            </div>
+            <label>
+              Venue
+              <input type="text" name="venue" placeholder="e.g., Seminar Hall 1" required />
+            </label>
+            <div class="form-row">
+              <label>
+                Prize Pool
+                <input type="text" name="prize_pool" placeholder="e.g., ₹50,000" value="₹25,000" />
+              </label>
+              <label>
+                Status
+                <select name="status">
+                  <option value="Open">Open</option>
+                  <option value="Upcoming">Upcoming</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary full-width">Create Hackathon</button>
+          </form>
+        </div>
+
+        <div>
+          <div class="section-header">
+            <h3>All Hackathons</h3>
+          </div>
+          <div class="cards-grid" id="hackathons-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Teams Tab -->
+    <section id="tab-teams" class="tab-panel">
+      <div class="split-layout">
+        <div class="card form-card">
+          <h3>Register a Team</h3>
+          <form id="team-form">
+            <label>
+              Hackathon
+              <select name="hackathon_id" id="team-hackathon-select" required></select>
+            </label>
+            <label>
+              Team Name
+              <input type="text" name="team_name" placeholder="e.g., NeuralNinjas" required />
+            </label>
+            <div class="form-row">
+              <label>
+                Team Leader
+                <input type="text" name="leader_name" placeholder="Full Name" required />
+              </label>
+              <label>
+                Leader Email
+                <input type="email" name="leader_email" placeholder="name@college.edu" required />
+              </label>
+            </div>
+            <label>
+              Track / Domain
+              <input type="text" name="track" placeholder="e.g., AI & ML, Web3, IoT" required />
+            </label>
+            <label>
+              Team Members (comma-separated)
+              <textarea name="members" rows="2" placeholder="Member 1, Member 2, Member 3" required></textarea>
+            </label>
+            <button type="submit" class="btn btn-primary full-width">Register Team</button>
+          </form>
+        </div>
+
+        <div>
+          <div class="section-header">
+            <h3>Registered Teams</h3>
+          </div>
+          <div class="table-wrap card">
+            <table>
+              <thead>
+                <tr>
+                  <th>Team</th>
+                  <th>Hackathon</th>
+                  <th>Track</th>
+                  <th>Leader</th>
+                  <th>Members</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="teams-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Submissions Tab -->
+    <section id="tab-submissions" class="tab-panel">
+      <div class="split-layout">
+        <div class="card form-card">
+          <h3>Submit Project</h3>
+          <form id="submission-form">
+            <label>
+              Select Team
+              <select name="team_id" id="submission-team-select" required></select>
+            </label>
+            <label>
+              Project Title
+              <input type="text" name="project_title" placeholder="e.g., CampusConnect" required />
+            </label>
+            <label>
+              Tech Stack
+              <input type="text" name="tech_stack" placeholder="e.g., Python, React, SQLite" required />
+            </label>
+            <label>
+              GitHub / Repository URL
+              <input type="url" name="repo_url" placeholder="https://github.com/..." required />
+            </label>
+            <label>
+              Live Demo URL (optional)
+              <input type="url" name="demo_url" placeholder="https://..." />
+            </label>
+            <label>
+              Project Description
+              <textarea name="description" rows="3" placeholder="Problem statement and solution summary..." required></textarea>
+            </label>
+            <button type="submit" class="btn btn-primary full-width">Submit Project</button>
+          </form>
+        </div>
+
+        <div>
+          <div class="section-header">
+            <h3>Project Submissions</h3>
+          </div>
+          <div class="cards-grid" id="submissions-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Judging & Leaderboard Tab -->
+    <section id="tab-judging" class="tab-panel">
+      <div class="split-layout">
+        <div class="card form-card">
+          <h3>Judge Evaluation Form</h3>
+          <form id="score-form">
+            <label>
+              Project Submission
+              <select name="submission_id" id="score-submission-select" required></select>
+            </label>
+            <label>
+              Judge Name
+              <input type="text" name="judge_name" placeholder="e.g., Prof. Anita Rao" required />
+            </label>
+            <div class="form-row-3">
+              <label>
+                Innovation (1–10)
+                <input type="number" name="innovation_score" min="1" max="10" value="8" required />
+              </label>
+              <label>
+                Execution (1–10)
+                <input type="number" name="execution_score" min="1" max="10" value="8" required />
+              </label>
+              <label>
+                Impact (1–10)
+                <input type="number" name="impact_score" min="1" max="10" value="8" required />
+              </label>
+            </div>
+            <label>
+              Judge Feedback
+              <textarea name="feedback" rows="3" placeholder="Strengths and suggestions..."></textarea>
+            </label>
+            <button type="submit" class="btn btn-primary full-width">Save Evaluation</button>
+          </form>
+        </div>
+
+        <div>
+          <div class="section-header">
+            <h3>Live Leaderboard</h3>
+          </div>
+          <div class="table-wrap card">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Project</th>
+                  <th>Team</th>
+                  <th>Judges</th>
+                  <th>Avg Score</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
